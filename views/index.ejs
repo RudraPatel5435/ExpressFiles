@@ -5,16 +5,28 @@
 </head>
 <body class="bg-zinc-900 text-white">
    <h1 class="text-center text-5xl mt-3 font-bold">Express Files</h1>
-   <form action="/create" method="post" class="flex items-center justify-center">
+   <form action="/create" method="post">
         <div class="form flex flex-col gap-4 mt-10 p-10 ">
-            <input type="text" name="title" placeholder="Task Name" class="w-72 bg-zinc-800 outline-none px-4 py-2">
-            <textarea type="text" name="details" placeholder="Task Details" class="w-72 bg-zinc-800 outline-none resize-none px-4 py-2"></textarea>
-            <input type="submit" value="Add Task" class="px-4 py-2 bg-blue-500 w-72">
+            <input type="text" name="title" placeholder="Task Name" class="w-full bg-zinc-800 outline-none px-4 py-2">
+            <textarea type="text" name="details" placeholder="Enter your task details here..." class="w-full bg-zinc-800 outline-none resize-none px-4 py-2"></textarea>
+            <input type="submit" value="Add Task" class="px-4 py-2 bg-blue-600 rounded-lg w-56">
         </div>
 
 
-        <div class="tasks">
-            
+        <div class="tasks p-10 flex gap-3 flex-wrap">
+        <% if(files.length >0){ %>
+            <%files.forEach((val)=>{ %>
+            <div class="task w-72 px-3 py-4 bg-zinc-800 rounded-md">
+                <h1 class="text-3xl"><%=val%></h1>
+                <a href="" class="text-blue-500 inline-block mt-3">Read More</a>
+            </div>
+            <%})%>
+        <% } else { %>
+            <div class="text-4xl text-zinc-600">
+                <h1>No Tasks Yet</h1>
+            </div>
+        <% } %>
+
         </div>
    </form> 
 </body>
