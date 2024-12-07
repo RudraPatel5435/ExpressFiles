@@ -6,21 +6,21 @@
 <body class="bg-zinc-900 text-white">
    <h1 class="text-center text-5xl mt-3 font-bold">Express Files</h1>
    <form action="/create" method="post">
-        <div class="form flex flex-col gap-4 mt-10 p-10 ">
-            <input type="text" name="title" placeholder="Task Name" class="w-full bg-zinc-800 outline-none px-4 py-2">
-            <textarea type="text" name="details" placeholder="Enter your task details here..." class="w-full h-24 bg-zinc-800 outline-none resize-none px-4 py-2"></textarea>
-            <input type="submit" value="Add Task" class="px-4 py-2 bg-blue-600 cursor-pointer rounded-lg w-56">
+        <div class="form flex flex-col gap-4 mt-10 px-36">
+            <input type="text" name="title" placeholder="Task Name" class="rounded-md w-full bg-zinc-800 outline-none px-4 py-2">
+            <textarea type="text" name="details" placeholder="Enter your task details here..." class="rounded-md w-full h-24 bg-zinc-800 outline-none resize-none px-4 py-2"></textarea>
+            <input type="submit" value="Add Task" class="px-4 py-2 bg-blue-600 cursor-pointer rounded-lg w-56 rounded-md ">
         </div>
 
 
-        <div class="tasks p-10 flex gap-3 flex-wrap">
+        <div class="tasks px-36 mt-24 flex gap-3 flex-wrap">
         <% if(files.length >0){ %>
             <%files.forEach((val)=>{ %>
-            <div class="task w-72 px-3 py-4 bg-zinc-800 rounded-md">
-                <h1 class="text-3xl"><%=val%></h1>
+            <div class="task w-72 px-3 py-4 bg-zinc-800 rounded-lg flex flex-col justify-between">
+                <h1 class="text-3xl overflow-x-scroll"><%=val%></h1>
                 <div class="flex w-full justify-between items-center mt-3">
                     <a href="/file/<%=val%>" class="text-blue-500 inline-block">Read More</a>
-                    <a href="/edit/<%=val%>" class="text-zinc-600">Edit Filename</a>
+                    <a href="/edit/<%=val%>" class="text-yellow-600">Edit Filename</a>
                 </div>
             </div>
             <%})%>
