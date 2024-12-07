@@ -1,0 +1,1 @@
+Require fs using fs and use it as fs.readFile or fs.writeFile
