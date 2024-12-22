@@ -7,11 +7,10 @@
   <header class="text-5xl text-center">
     Express Files
   </header>
-  <main>
-    <form action="/add" method="post" class="w-full flex items-center justify-center">
-      <input type="text" placeholder="Enter filename"  class="block bg-zinc-800 text-white">
-      <textarea type="text" placeholder="Write a description (Optional)" class="block bg-zinc-800 text-white"></textarea>
-      <input type="file" class="block bg-zinc-800 text-white">
+  <main class="py-10 px-[400px]">
+    <form action="/addFile" method="post" enctype="multipart/form-data" class="w-full flex gap-10 items-center justify-center">
+      <input type="file" name="file" class="w-[400px] px-4 py-2 rounded-md outline-none block bg-zinc-800 text-white">
+      <button type="submit" class="bg-blue-500 text-white text-2xl rounded-md px-4 py-2">Add File</button>
     </form>
     <div class="files">
       <div class="file"></div>
