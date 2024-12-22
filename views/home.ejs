@@ -7,13 +7,24 @@
   <header class="text-5xl text-center">
     Express Files
   </header>
-  <main class="py-10 px-[400px]">
-    <form action="/addFile" method="post" enctype="multipart/form-data" class="w-full flex gap-10 items-center justify-center">
+  <main class="py-10">
+    <form action="/addFile" method="post" enctype="multipart/form-data" class="w-full px-[400px] flex gap-10 items-center justify-center">
       <input type="file" name="file" class="w-[400px] px-4 py-2 rounded-md outline-none block bg-zinc-800 text-white">
       <button type="submit" class="bg-blue-500 text-white text-2xl rounded-md px-4 py-2">Add File</button>
     </form>
-    <div class="files">
-      <div class="file"></div>
+    <div class="files w-full px-20 flex flex-wrap gap-10 mt-20">
+        <% files.forEach((file, id)=>{ %>
+          <div class="file bg-zinc-800 p-5 w-[220px] rounded-xl h-64" key=<%id%>>
+            <div class="text-center font-semibold text-xl"><%=file.filename%></div>
+            <div class="file-actions flex justify-center gap-5 mt-5">
+              <a href="/download/<%=file._id%>" class="bg-blue-500 text-white text-base rounded-md px-2 py-2">Download</a>
+              <form action="/delete/<%=file._id%>" method="post" class="inline">
+                <button type="submit" class="bg-red-500 text-white text-base rounded-md px-2 py-2">Delete</button>
+              </form>
+            </div>
+          </div>
+       <%  }) %>
+      </div>
     </div>
   </main>
 </body>

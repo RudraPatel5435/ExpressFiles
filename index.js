@@ -9,6 +9,10 @@ const user = require('./models/user')
 const multer = require('multer')
 const crypto = require('crypto')
 const path = require('path')
+const fs = require('fs')
+
+const app = express()
+const JWT_SECRET = 'secret'
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -16,16 +20,12 @@ const storage = multer.diskStorage({
   },
   filename: (req, file, cb) => {
     crypto.randomBytes(5, (err, buffer) => {
-      const fn = buffer.toString('hex') + path.extname(file.originalname)
-      cb(null, file.fieldname + '-' + fn)
+      cb(null, file.originalname )
     })
   }
 })
 
 const upload = multer({storage: storage})
-
-const app = express()
-const JWT_SECRET = 'secret'
 
 app.set('view engine', 'ejs')
 app.use(express.json())
@@ -61,21 +61,6 @@ app.post('/register',
   res.redirect('/home')
 })
 
-const authenticateJWT = (req, res, next)=>{
-  const token = req.cookies.token
-  if(token) {
-    jwt.verify(token, JWT_SECRET, (err, user) => {
-      if(err){
-        return res.sendStatus(403)
-      }
-      req.user = user
-      next()
-    })
-  } else {
-    res.sendStatus(401)
-  }
-}
-
 app.post('/login',
   body('username').trim(),
   body('password').trim().isLength({min: 8}),
@@ -96,8 +81,25 @@ app.post('/login',
     res.redirect('/home')
   })
   
-  app.get('/home', authenticateJWT, (req, res)=>{
-    res.render('home')
+  const authenticateJWT = (req, res, next)=>{
+    const token = req.cookies.token
+    if(token) {
+      jwt.verify(token, JWT_SECRET, (err, user) => {
+        if(err){
+          return res.sendStatus(403)
+        }
+        req.user = user
+        next()
+      })
+    } else {
+      res.sendStatus(401)
+    }
+  }
+  
+  app.get('/home', authenticateJWT, async (req, res)=>{
+    const user = await userModel.findById(req.user.userId).populate('files')
+    const files = await fileModel.find()
+    res.render('home', {user, files})
   })
 
   app.post('/addFile', authenticateJWT, upload.single('file'), async (req, res, next)=>{
@@ -112,14 +114,44 @@ app.post('/login',
       size: file.size
     })
     const user = await userModel.findById(req.user.userID)
-    // if (!user || !user.files) {
-    //   return res.status(500).send("User or user files not initialized correctly")
-    // }
+    if (!user || !user.files) {
+      return res.status(500).send("User or user files not initialized correctly")
+    }
     user.files.push(newFile._id)
     await user.save()
     console.log(newFile)
 
-    res.render('home')
+    res.redirect('/home')
+  })
+
+  app.get('/download/:id', authenticateJWT, async (req, res)=>{
+    const file = await fileModel.findById(req.params.id)
+    if(!file){
+      return res.status(404).send('File not found')
+    }
+    res.download(`./uploads/${file.filename}`)
+  })
+
+  app.post('/delete/:id', authenticateJWT, async (req, res)=>{
+    const file = await fileModel.findById(req.params.id)
+    if(!file){
+      return res.status(404).send('File not found')
+    }
+
+    fs.unlink(file.file.path, async (err)=>{
+      if(err){
+        return res.status(500).send('Error deleting file')
+      }
+
+      await userModel.updateOne(
+        {_id: req.user.userId},
+        { $pull: {files: file._id}}
+      )
+
+      await fileModel.deleteOne({_id: file._id})
+
+      res.redirect('/home')
+   })
   })
 
 app.listen(5001, ()=>{
