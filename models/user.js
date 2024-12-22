@@ -13,12 +13,10 @@ const userSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
-  // files: [
-  //   {
-  //     type: mongoose.Schema.Types.ObjectId,
-  //     ref: 'file'
-  //   }
-  // ]
+  files: {
+    type: Array,
+    required: false
+  }
 })
 
 const user = mongoose.model('user', userSchema)

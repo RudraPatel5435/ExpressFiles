@@ -7,7 +7,7 @@
     <div class="text-slate-700 leading-none text-8xl">Express Files</div>
     <div class="signup w-[400px] h-[400px] bg-slate-700 rounded-[40px] p-8 mt-16">
         <h3 class='text-center text-5xl text-[#F4E4BA]'>Welcome</h3>
-        <form action="/home" method="post" class='mt-10 text-xl px-3'>
+        <form action="/login" method="post" class='mt-10 text-xl px-3'>
             <div class="mb-6">
                 <input name='username' class="outline-none bg-transparent text-[#C46D5E]" type="text" placeholder='Username' />
                 <hr class="border-1 border-[#C46D5E]" />
@@ -19,7 +19,7 @@
             <button class='w-full p-2 rounded-lg text-4xl text-center bg-[#778472] text-white mt-4'>Login</button>
             <div class="mt-10 flex gap-1">
                 <h5 class='text-white text-lg'>Need an account ?</h5>
-                <h6 class='text-[#C46D5E] text-lg underline cursor-pointer'>Sign Up</h6>
+                <h6 onclick="window.location.href='/'" class='text-[#C46D5E] text-lg underline cursor-pointer'>Sign Up</h6>
             </div>
         </form>
     </div>

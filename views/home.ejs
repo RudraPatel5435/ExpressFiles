@@ -3,16 +3,19 @@
   <title>Express Files</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-zinc-900 text-white p-10">
+<body class="w-screen h-screen bg-zinc-900 text-white p-10 font-[Gilroy-Semibold]">
   <header class="text-5xl text-center">
     Express Files
   </header>
   <main>
-    <form action="/add" method="post">
+    <form action="/add" method="post" class="w-full flex items-center justify-center">
       <input type="text" placeholder="Enter filename"  class="block bg-zinc-800 text-white">
       <textarea type="text" placeholder="Write a description (Optional)" class="block bg-zinc-800 text-white"></textarea>
       <input type="file" class="block bg-zinc-800 text-white">
     </form>
+    <div class="files">
+      <div class="file"></div>
+    </div>
   </main>
 </body>
 </html>
