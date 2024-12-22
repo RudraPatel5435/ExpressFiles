@@ -111,7 +111,8 @@ app.post('/login',
 
     const newFile = await fileModel.create({
       filename: file.originalname,
-      size: file.size
+      size: file.size,
+      path: file.path
     })
     const user = await userModel.findById(req.user.userID)
     if (!user || !user.files) {
@@ -138,7 +139,7 @@ app.post('/login',
       return res.status(404).send('File not found')
     }
 
-    fs.unlink(file.file.path, async (err)=>{
+    fs.unlink(file.path, async (err)=>{
       if(err){
         return res.status(500).send('Error deleting file')
       }
