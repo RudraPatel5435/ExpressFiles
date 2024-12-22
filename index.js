@@ -106,7 +106,7 @@ app.post('/login',
     const file = req.file
 
     if(!file){
-      return res.status(400).send("No file uploaded")
+      return res.redirect('/home')
     }
 
     const newFile = await fileModel.create({
@@ -153,6 +153,11 @@ app.post('/login',
 
       res.redirect('/home')
    })
+  })
+
+  app.post('/logout', authenticateJWT, (req, res)=>{
+    res.clearCookie('token')
+    res.render('./Auth/login')
   })
 
 app.listen(5001, ()=>{
