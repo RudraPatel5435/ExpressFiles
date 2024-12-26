@@ -25,12 +25,6 @@ git clone https://github.com/RudraPatel5435/ExpressFiles.git
 cd ExpressFiles
 ```
 
-Run the following command to initialize the project:
-
-```bash
-npm init -y
-```
-
 ### 4. Install Dependencies
 
 Install the necessary dependencies by running:
