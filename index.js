@@ -120,8 +120,6 @@ app.post('/login',
     }
     user.files.push(newFile._id)
     await user.save()
-    console.log(newFile)
-
     res.redirect('/home')
   })
 
@@ -129,6 +127,10 @@ app.post('/login',
     const file = await fileModel.findById(req.params.id)
     if(!file){
       return res.status(404).send('File not found')
+    }
+
+    if(!user.files.includes(file._id)){
+      return res.status(401).send('Unauthorized')
     }
     res.download(`./uploads/${file.filename}`)
   })
